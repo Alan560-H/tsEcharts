@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { onMounted,reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import { cityWeather } from "@/apis/wealther";
 import { login } from "@/apis/mockLogin";
 import * as dayjs from 'dayjs'
@@ -18,7 +17,7 @@ function CK(): void {
 onMounted(() => {
 
     login().then(({ data }) => {
-        console.log(reactive(data), "mockData");
+        console.log(data, "mockData");
     })
 })
 </script>
@@ -26,15 +25,12 @@ onMounted(() => {
 <template>
     <header>
         <el-button @click="CK" type="primary">我是 ElButton</el-button>
-            <HelloWorld msg="You did it!" />
-    
-            <nav>
-                <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/about">About</RouterLink>
-            </nav>
     </header>
-    
-    <RouterView />
+    <router-view v-slot="{ Component }">
+        <keep-alive>
+            <component :is="Component" />
+        </keep-alive>
+    </router-view>
 </template>
 
 <style scoped>
@@ -79,14 +75,17 @@ nav a:first-of-type {
         place-items: center;
         padding-right: calc(var(--section-gap) / 2);
     }
+
     .logo {
         margin: 0 2rem 0 0;
     }
+
     header .wrapper {
         display: flex;
         place-items: flex-start;
         flex-wrap: wrap;
     }
+
     nav {
         text-align: left;
         margin-left: -1rem;
@@ -94,5 +93,4 @@ nav a:first-of-type {
         padding: 1rem 0;
         margin-top: 1rem;
     }
-}
-</style>
+}</style>

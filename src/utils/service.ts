@@ -23,7 +23,8 @@ interface ResultData<T = any> extends Result {
     data?: T //data可选，因为有的时候data可能为null
 }
 const config = {
-    baseURL: import.meta.env.VITE_APP_BASE_API as string,
+    // baseURL: import.meta.env.VITE_APP_BASE_API as string,
+    baseURL:"",
     timeout: ServerEnums.TIMEOUT,
     withCredentials: true,// 跨越的时候允许携带凭证
 }
@@ -33,7 +34,6 @@ class Service {
     constructor(config: AxiosRequestConfig) {
         this.service = axios.create(config)
         this.service = this.setInterceptors(this.service);
-        console.log(this.service,config,"!!!");
     }
 
     private setInterceptors(service: AxiosInstance): AxiosInstance {
@@ -94,7 +94,7 @@ class Service {
         }
     }
     get<T>(url:string,params?:object):Promise<ResultData<T>>{
-        // this.service.defaults.baseURL = "";
+        this.service.defaults.baseURL = "";
         return this.service.get(url,{params})
     }
 

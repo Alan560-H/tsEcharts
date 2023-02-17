@@ -4,6 +4,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
+// 引入mockjs 插件
+import { viteMockServe } from "vite-plugin-mock";
+
 // 引入自动引入elementui插件
 import AutoImport from "unplugin-auto-import/vite";
 import Components from 'unplugin-vue-components/vite'
@@ -16,6 +19,11 @@ export default defineConfig({
     plugins: [
         vue(),
         vueJsx(),
+        // mockjs
+        viteMockServe({
+            mockPath:"./src/mock/",//指向mock下的所有文件
+            localEnabled:true,//是否开启开发环境
+        }),
         // 按需引入 element组件
         AutoImport({ resolvers: ElementPlusResolver() }),
         Components({
@@ -32,10 +40,6 @@ export default defineConfig({
       '/simpleWeather': {
         target: 'http://apis.juhe.cn',  //API服务地址
         changeOrigin: true,             //开启跨域
-        // rewrite: (path) => {
-        //     console.log("拦截成功");
-        //     return path.replace(/^\/simpleWeather/, '')
-        // }
       }
     }
   }
